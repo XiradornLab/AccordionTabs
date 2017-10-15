@@ -1,0 +1,105 @@
+// Imports
+@import 'https://fonts.googleapis.com/css?family=Lato'
+
+// Vars
+$screen-md : 768px
+$cols: [1,2,3,4,6,8,10,12]
+$grid-col : 12
+$grid-col-gutter : 30px
+
+// Functions
+@function perc-vals($elem)
+    @return percentage((1 * $elem) / $grid-col)
+
+// Mixins
+=clearfix
+    &::after, &::before
+        display: table
+        content: " "
+    &::after
+        clear: both
+
+// General Elems
+*
+    padding: 0
+    margin: 0
+    border: none
+    outline: none
+    text:
+        align: left
+    vertical-align: baseline
+
+    &, &::after, &::before
+        box-sizing: border-box
+    font:
+        family: "Lato"
+
+img
+    max-width: 100%
+    height: auto
+    display: block
+
+.clearfix
+    +clearfix
+
+// Coding
+.container, .row
+    &::after
+        display: table
+        content: " "
+        clear: both
+
+.container
+    width: 80%
+    max-width: 960px
+    margin: 0 auto
+
+.row
+    margin:
+        left: $grid-col-gutter / -2
+        right: $grid-col-gutter / -2
+
+@each $col in $cols
+    .col-md-#{$col}
+        position: relative
+        min:
+            height: 1px
+        float: left
+        width: perc-vals($col)
+        padding:
+            left: $grid-col-gutter / 2
+            right: $grid-col-gutter / 2
+            top: 10px
+            bottom: 10px
+
+        @media (max-width: $screen-md)
+            width: 100%
+
+    @if $col != 12
+        .col-md-offset-#{$col}
+            margin:
+                left: perc-vals($col)
+
+            @media (max-width: $screen-md)
+                width: 100%
+
+        .col-md-push-#{$col}
+            left: perc-vals($col)
+
+        .col-md-pull-#{$col}
+            right: perc-vals($col)
+
+        .col-md-pull#{$col}
+
+$txt-aligns: ["left", "right", "center", "justify", "nowrap"]
+
+@each $txt-align in $txt-aligns
+    .text-#{$txt-align}
+        @if $txt-align != "nowrap"
+            text-align: #{$txt-align}
+        @else
+            white-space: #{$txt-align}
+
+p
+    margin:
+        bottom: 15px
